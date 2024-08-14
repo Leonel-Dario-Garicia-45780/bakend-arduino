@@ -46,6 +46,7 @@ cron.schedule('* * * * *', () => {
   if (horaApagado && horaApagado.hour === currentHour && horaApagado.minute === currentMinute) {
     maquinaEncendida = false;
     console.log(`Máquina apagada a la hora programada (${horaApagado.hour}:${horaApagado.minute})`);
+    res.json({message:'maquina apagada exitsosamente'})
     horaApagado = null; // Restablecer la hora de apagado
   }
 });
