@@ -9,7 +9,7 @@ import https from 'https';
 let horaApagado = null;
 let maquinaEncendida = false;
 // const esp32IpAddress = '192.168.1.100'; // Reemplaza con la IP de tu placa ESP32
-const esp32IpAddress = '192.168.1.104'; // Reemplaza con la IP de tu placa ESP32
+const esp32IpAddress = '192.168.1.104/control'; // Reemplaza con la IP de tu placa ESP32
 const esp32Port = 80; // Reemplaza con el puerto de tu placa ESP32
 
 // Controla la máquina: encender o apagar
