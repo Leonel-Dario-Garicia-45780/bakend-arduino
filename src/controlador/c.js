@@ -38,7 +38,7 @@ export const controlarMaquina = async (req, res) => {
 
 // Ruta para verificar el estado de la máquina
 export const estadoMaquina = (req, res) => {
-  ultimaSolicitudESP32 = new Date();  // Registrar la última vez que la ESP32 hizo una solicitud
+  // ultimaSolicitudESP32 = new Date();  // Registrar la última vez que la ESP32 hizo una solicitud
   res.status(200).json({ maquinaEncendida, horaApagado });
 };
 
