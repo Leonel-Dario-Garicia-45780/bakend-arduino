@@ -43,18 +43,18 @@ export const estadoMaquina = (req, res) => {
 };
 
 // Ruta para informar al frontend sobre la última solicitud de la ESP32
-export const ultimaSolicitud = (req, res) => {
-  const ahora = new Date();
-  let diferencia = (ahora - ultimaSolicitudESP32) / 1000; // Diferencia en segundos
+// export const ultimaSolicitud = (req, res) => {
+//   const ahora = new Date();
+//   let diferencia = (ahora - ultimaSolicitudESP32) / 1000; // Diferencia en segundos
 
-  // Si han pasado más de 10 segundos desde la última solicitud, no se considera reciente
-  const esReciente = diferencia <= 10;
+//   // Si han pasado más de 10 segundos desde la última solicitud, no se considera reciente
+//   const esReciente = diferencia <= 10;
   
-  res.status(200).json({
-    ultimaSolicitudESP32,
-    esReciente
-  });
-};
+//   res.status(200).json({
+//     ultimaSolicitudESP32,
+//     esReciente
+//   });
+// };
 
 
 
