@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { controlarMaquina, estadoMaquina, ultimaSolicitud } from '../controlador/c.js';
+import { controlarMaquina, estadoMaquina } from '../controlador/c.js';
 
 const router = Router();
 
