@@ -1,59 +1,59 @@
-// //! intento 2 de comunicacion de placa y fronent
+//! intento 2 de comunicacion de placa y fronent
 
-// let horaApagado = null;
-// let maquinaEncendida = false;
-// let ultimaSolicitudESP32 = null;
+let horaApagado = null;
+let maquinaEncendida = false;
+let ultimaSolicitudESP32 = null;
 
-// // Función para controlar la máquina
-// export const controlarMaquina = async (req, res) => {
-//   const { command, hour, minute } = req.body;
+// Función para controlar la máquina
+export const controlarMaquina = async (req, res) => {
+  const { command, hour, minute } = req.body;
 
-//   // Encender la máquina
-//   if (command === 'on') {
-//     maquinaEncendida = true;
-//     console.log('Máquina encendida');
-//     res.status(200).json({ status: 'success', command });
-//     return;
-//   }
+  // Encender la máquina
+  if (command === 'on') {
+    maquinaEncendida = true;
+    console.log('Máquina encendida');
+    res.status(200).json({ status: 'success', command });
+    return;
+  }
 
-//   // Apagar la máquina
-//   if (command === 'off') {
-//     // Apagado programado
-//     if (hour !== undefined && minute !== undefined) {
-//       horaApagado = { hour: parseInt(hour), minute: parseInt(minute) };
-//       console.log(`Hora de apagado programada a las ${hour}:${minute}`);
-//       res.status(200).json({ status: 'success', command, message: `Hora de apagado programada a las ${hour}:${minute}` });
-//     } else {
-//       // Apagado inmediato
-//       maquinaEncendida = false;
-//       console.log('Máquina apagada');
-//       res.status(200).json({ status: 'success', command, message: 'Máquina apagada' });
-//     }
-//     return;
-//   }
+  // Apagar la máquina
+  if (command === 'off') {
+    // Apagado programado
+    if (hour !== undefined && minute !== undefined) {
+      horaApagado = { hour: parseInt(hour), minute: parseInt(minute) };
+      console.log(`Hora de apagado programada a las ${hour}:${minute}`);
+      res.status(200).json({ status: 'success', command, message: `Hora de apagado programada a las ${hour}:${minute}` });
+    } else {
+      // Apagado inmediato
+      maquinaEncendida = false;
+      console.log('Máquina apagada');
+      res.status(200).json({ status: 'success', command, message: 'Máquina apagada' });
+    }
+    return;
+  }
 
-//   res.status(400).json({ status: 'error', message: 'Comando no reconocido' });
-// };
+  res.status(400).json({ status: 'error', message: 'Comando no reconocido' });
+};
 
-// // Ruta para verificar el estado de la máquina
-// export const estadoMaquina = (req, res) => {
-//   ultimaSolicitudESP32 = new Date();  // Registrar la última vez que la ESP32 hizo una solicitud
-//   res.status(200).json({ maquinaEncendida, horaApagado });
-// };
+// Ruta para verificar el estado de la máquina
+export const estadoMaquina = (req, res) => {
+  ultimaSolicitudESP32 = new Date();  // Registrar la última vez que la ESP32 hizo una solicitud
+  res.status(200).json({ maquinaEncendida, horaApagado });
+};
 
-// // Ruta para informar al frontend sobre la última solicitud de la ESP32
-// export const ultimaSolicitud = (req, res) => {
-//   const ahora = new Date();
-//   let diferencia = (ahora - ultimaSolicitudESP32) / 1000; // Diferencia en segundos
+// Ruta para informar al frontend sobre la última solicitud de la ESP32
+export const ultimaSolicitud = (req, res) => {
+  const ahora = new Date();
+  let diferencia = (ahora - ultimaSolicitudESP32) / 1000; // Diferencia en segundos
 
-//   // Si han pasado más de 10 segundos desde la última solicitud, no se considera reciente
-//   const esReciente = diferencia <= 10;
+  // Si han pasado más de 10 segundos desde la última solicitud, no se considera reciente
+  const esReciente = diferencia <= 10;
 
-//   res.status(200).json({
-//     ultimaSolicitudESP32,
-//     esReciente
-//   });
-// };
+  res.status(200).json({
+    ultimaSolicitudESP32,
+    esReciente
+  });
+};
 
 
 
@@ -234,59 +234,59 @@
 
 
 
-//! vercion 2 interaccion con fronen unicamente 
-import cron from 'node-cron';
+// //! vercion 2 interaccion con fronen unicamente 
+// import cron from 'node-cron';
 
-let horaApagado = null;
-let maquinaEncendida = false;
+// let horaApagado = null;
+// let maquinaEncendida = false;
 
-// Controla la máquina: encender o apagar
-export const controlarMaquina = (req, res) => {
-  const { command, hour, minute } = req.body;
+// // Controla la máquina: encender o apagar
+// export const controlarMaquina = (req, res) => {
+//   const { command, hour, minute } = req.body;
 
-  if (command === 'on') {
-    maquinaEncendida = true;
-    console.log('Máquina encendida');
-    res.status(200).json({ status: 'success', command });
-    return; // Salir después de encender la máquina
-  }
+//   if (command === 'on') {
+//     maquinaEncendida = true;
+//     console.log('Máquina encendida');
+//     res.status(200).json({ status: 'success', command });
+//     return; // Salir después de encender la máquina
+//   }
 
-  if (command === 'off') {
-    if (hour !== undefined && minute !== undefined) {
-      // Programar apagado
-      horaApagado = { hour: parseInt(hour), minute: parseInt(minute) };
-      console.log(`Hora de apagado programada a las ${hour}:${minute}`);
-      res.status(200).json({ status: 'success', command, message: `Hora de apagado programada a las ${hour}:${minute}` });
-    } else {
-      // Apagar inmediatamente
-      maquinaEncendida = false;
-      console.log('Máquina apagada');
-      res.status(200).json({ status: 'success', command, message: 'Máquina apagada' });
-    }
-    return; // Salir después de procesar el apagado
-  }
+//   if (command === 'off') {
+//     if (hour !== undefined && minute !== undefined) {
+//       // Programar apagado
+//       horaApagado = { hour: parseInt(hour), minute: parseInt(minute) };
+//       console.log(`Hora de apagado programada a las ${hour}:${minute}`);
+//       res.status(200).json({ status: 'success', command, message: `Hora de apagado programada a las ${hour}:${minute}` });
+//     } else {
+//       // Apagar inmediatamente
+//       maquinaEncendida = false;
+//       console.log('Máquina apagada');
+//       res.status(200).json({ status: 'success', command, message: 'Máquina apagada' });
+//     }
+//     return; // Salir después de procesar el apagado
+//   }
 
-  res.status(400).json({ status: 'error', message: 'Comando no reconocido' });
-};
+//   res.status(400).json({ status: 'error', message: 'Comando no reconocido' });
+// };
 
-// Devuelve el estado actual de la máquina
-export const estadoMaquina = (req, res) => {
-  res.status(200).json({ maquinaEncendida, horaApagado });
-};
+// // Devuelve el estado actual de la máquina
+// export const estadoMaquina = (req, res) => {
+//   res.status(200).json({ maquinaEncendida, horaApagado });
+// };
 
-// Tarea programada para verificar la hora de apagado
-cron.schedule('* * * * *', () => {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
+// // Tarea programada para verificar la hora de apagado
+// cron.schedule('* * * * *', () => {
+//   const now = new Date();
+//   const currentHour = now.getHours();
+//   const currentMinute = now.getMinutes();
 
-  if (horaApagado && horaApagado.hour === currentHour && horaApagado.minute === currentMinute) {
-    maquinaEncendida = false;
-    console.log(`Máquina apagada a la hora programada (${horaApagado.hour}:${horaApagado.minute})`);
-    res.json({message:'maquina apagada exitsosamente'})
-    horaApagado = null; // Restablecer la hora de apagado
-  }
-});
+//   if (horaApagado && horaApagado.hour === currentHour && horaApagado.minute === currentMinute) {
+//     maquinaEncendida = false;
+//     console.log(`Máquina apagada a la hora programada (${horaApagado.hour}:${horaApagado.minute})`);
+//     res.json({message:'maquina apagada exitsosamente'})
+//     horaApagado = null; // Restablecer la hora de apagado
+//   }
+// });
 
 
 
