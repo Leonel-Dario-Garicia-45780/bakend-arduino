@@ -1,7 +1,5 @@
 //! intento 2 de comunicacion de placa y fronent
 
-import https from 'https';
-
 let horaApagado = null;
 let maquinaEncendida = false;
 let ultimaSolicitudESP32 = null;
@@ -20,8 +18,8 @@ export const controlarMaquina = async (req, res) => {
 
   // Apagar la máquina
   if (command === 'off') {
+    // Apagado programado
     if (hour !== undefined && minute !== undefined) {
-      // Apagado programado
       horaApagado = { hour: parseInt(hour), minute: parseInt(minute) };
       console.log(`Hora de apagado programada a las ${hour}:${minute}`);
       res.status(200).json({ status: 'success', command, message: `Hora de apagado programada a las ${hour}:${minute}` });
@@ -56,8 +54,6 @@ export const ultimaSolicitud = (req, res) => {
     esReciente
   });
 };
-
-
 
 
 
