@@ -1,6 +1,7 @@
 //! intento 2 de comunicacion de placa y fronent
 
-// Variables globales
+import https from 'https';
+
 let horaApagado = null;
 let maquinaEncendida = false;
 let ultimaSolicitudESP32 = null;
@@ -19,8 +20,8 @@ export const controlarMaquina = async (req, res) => {
 
   // Apagar la máquina
   if (command === 'off') {
-    // Apagado programado
     if (hour !== undefined && minute !== undefined) {
+      // Apagado programado
       horaApagado = { hour: parseInt(hour), minute: parseInt(minute) };
       console.log(`Hora de apagado programada a las ${hour}:${minute}`);
       res.status(200).json({ status: 'success', command, message: `Hora de apagado programada a las ${hour}:${minute}` });
@@ -38,23 +39,23 @@ export const controlarMaquina = async (req, res) => {
 
 // Ruta para verificar el estado de la máquina
 export const estadoMaquina = (req, res) => {
-  // ultimaSolicitudESP32 = new Date();  // Registrar la última vez que la ESP32 hizo una solicitud
+  ultimaSolicitudESP32 = new Date();  // Registrar la última vez que la ESP32 hizo una solicitud
   res.status(200).json({ maquinaEncendida, horaApagado });
 };
 
 // Ruta para informar al frontend sobre la última solicitud de la ESP32
-// export const ultimaSolicitud = (req, res) => {
-//   const ahora = new Date();
-//   let diferencia = (ahora - ultimaSolicitudESP32) / 1000; // Diferencia en segundos
+export const ultimaSolicitud = (req, res) => {
+  const ahora = new Date();
+  let diferencia = (ahora - ultimaSolicitudESP32) / 1000; // Diferencia en segundos
 
-//   // Si han pasado más de 10 segundos desde la última solicitud, no se considera reciente
-//   const esReciente = diferencia <= 10;
-  
-//   res.status(200).json({
-//     ultimaSolicitudESP32,
-//     esReciente
-//   });
-// };
+  // Si han pasado más de 10 segundos desde la última solicitud, no se considera reciente
+  const esReciente = diferencia <= 10;
+
+  res.status(200).json({
+    ultimaSolicitudESP32,
+    esReciente
+  });
+};
 
 
 
